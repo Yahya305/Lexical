@@ -13,7 +13,7 @@ function App() {
             ></textarea>
             <div className="tokens">
                 <h2>Tokens: </h2>
-                <pre>
+                <pre style={{ fontSize: 8 }}>
                     {/* Render JSON String Here */}
                     {LexicalAnalyzer(Code)}
                 </pre>

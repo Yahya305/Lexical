@@ -6,6 +6,7 @@ import {
     IDENTIFIER_REGEX,
     KEYWORDS,
     PUNCTUATION,
+    SKIBIDI_SLANG,
 } from "./CONSTANTS";
 
 type WordT = {
@@ -51,7 +52,7 @@ const GenerateWords = (code: string) => {
                 w.push({ word: temp, lineNo: row });
                 temp = char;
             } else if (i == line.length - 1) {
-                w.push({ word: char, lineNo: row });
+                w.push({ word: temp + char, lineNo: row });
                 temp = "";
             }
             // Temp is not breaker
@@ -80,11 +81,13 @@ const GenerateTokens = (Words: WordT[]): TokenT[] => {
 };
 
 const ValidateClass = (word: string) => {
-    const regex = new RegExp(IDENTIFIER_REGEX, "g");
+    const indentifierRegex = new RegExp(IDENTIFIER_REGEX, "g");
     if (KEYWORDS.includes(word)) {
         return "KEYWORD";
     } else if (COMPARISON_OPERATORS.includes(word)) {
         return "COMPARISON_OPERATORS";
+    } else if (SKIBIDI_SLANG.includes(word)) {
+        return "SKIBIDI_SLANG";
     } else if (PUNCTUATION.includes(word)) {
         return "PUNCTUATION";
     } else if (word === "/n") {
@@ -93,7 +96,7 @@ const ValidateClass = (word: string) => {
         return "ARITHMETIC_OPERATOR";
     } else if (BOOLEAN_DT.includes(word)) {
         return "BOOLEAN_CONSTANT";
-    } else if (regex.exec(word)) {
+    } else if (indentifierRegex.exec(word)) {
         return "IDENTIFIER";
     }
     return "Invalid";

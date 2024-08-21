@@ -62,6 +62,8 @@ export const NUMERIC_LITERALS_REGEX = /^\d+(\.\d+)?$/;
 // String literals (quoted strings)
 export const STRING_LITERALS_REGEX = /^".*"$|^'.*'$/;
 
+export const SKIBIDI_SLANG = ["skibidi", "aura"];
+
 // Breakers or delimiters
 export const BREAKERS = [
     " ",
