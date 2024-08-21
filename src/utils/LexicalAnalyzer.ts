@@ -1,2 +1,15 @@
-// read kro or breaker daalo
-// breaker depend RE
+// Words Array
+// Words Analyze
+
+export const LexicalAnalyzer = (code: string) => {
+    return JSON.stringify({
+        msg: [
+            { message: "Something" },
+            { message: "Something" },
+            { message: "Something" },
+            { message: "Something" },
+            { message: "Something" },
+            { message: "Something" },
+        ],
+    });
+};
