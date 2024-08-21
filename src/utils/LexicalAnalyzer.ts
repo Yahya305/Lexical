@@ -4,63 +4,58 @@ type WordT = {
     word: string;
     lineNo: number;
 };
-
-const GenerateWords = (code: string): WordT[] => {
-    let words: WordT[] = [];
+const GenerateWords = (code: string) => {
+    let w: WordT[] = [];
     let temp: string = "";
 
-    const Lines = code.split("\n");
+    const Lines = code.split("\n").filter((x) => x !== "");
 
     for (let row = 0; row < Lines.length; row++) {
         const line = Lines[row];
         for (let i = 0; i < line.length; i++) {
             const char = line[i];
+            if (temp === "/" && char === "/") {
+                temp = "";
+                break;
+            }
             if (PUNCTUATION.includes(char)) {
-                if (temp.trim()) {
-                    words.push({ word: temp.trim(), lineNo: row + 1 });
-                }
-                words.push({ word: char, lineNo: row + 1 });
+                w.push({ word: temp, lineNo: row });
+                w.push({ word: char, lineNo: row });
                 temp = "";
             } else if (BREAKERS.includes(char)) {
-                if (temp.trim()) {
-                    words.push({ word: temp.trim(), lineNo: row + 1 });
-                }
+                w.push({ word: temp, lineNo: row });
                 temp = char;
-                words.push({ word: temp, lineNo: row + 1 });
-                temp = "";
             } else {
                 temp += char;
             }
         }
-        if (temp.trim()) {
-            words.push({ word: temp.trim(), lineNo: row + 1 });
-            temp = "";
-        }
-        words.push({ word: "\n", lineNo: row + 1 });
+        w.push({ word: "/n", lineNo: row });
     }
 
-    return words.filter((x) => x.word !== "" && x.word !== " ");
+    return w.filter((x) => {
+        return x.word !== " " && x.word !== "";
+    });
 };
 
-const GenerateTokens = (words: WordT[]) => {
-    let tokens: {}[] = [];
-    words.forEach((item) => {
-        tokens.push({
+const GenerateTokens = (Words: WordT[]) => {
+    let _tokens: {}[] = [];
+    Words.forEach((item) => {
+        _tokens.push({
             // tokenClass: "invalid",
             word: item.word,
             lineNo: item.lineNo,
         });
     });
-    return tokens;
+    return _tokens;
 };
 
-export const LexicalAnalyzer = (code: string): string => {
-    const words = GenerateWords(code);
-    const tokens = GenerateTokens(words);
+export const LexicalAnalyzer = (code: string) => {
+    const Words = GenerateWords(code);
+    const Tokens = GenerateTokens(Words);
 
     return JSON.stringify(
         {
-            Tokens: tokens,
+            Tokens: Tokens,
         },
         null,
         2
