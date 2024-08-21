@@ -51,6 +51,8 @@ export const KEYWORDS = [
     "const",
 ];
 
+export const BOOLEAN_DT = ["false", "true"];
+
 // Identifiers (not predefined, but for recognition)
 export const IDENTIFIER_REGEX = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
 
