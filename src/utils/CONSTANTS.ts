@@ -55,6 +55,7 @@ export const BREAKERS = [
     "\r",
     '"',
     "'",
+    ".",
     ...PUNCTUATION,
     ...OPERATORS,
 ];
