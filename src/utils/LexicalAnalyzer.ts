@@ -1,15 +1,32 @@
-// Words Array
-// Words Analyze
+import { BREAKERS } from "./CONSTANTS";
+
+const GenerateWords = (code: string) => {
+    let w: string[] = [];
+    let temp: string = "";
+    for (let i = 0; i < code.length; i++) {
+        const char = code[i];
+        if (BREAKERS.includes(char)) {
+            if (temp) w.push(temp);
+            if (char !== " " && char !== "\n") {
+                temp = char;
+            } else {
+                temp = "";
+            }
+        } else {
+            temp += char;
+        }
+    }
+    return w;
+};
 
 export const LexicalAnalyzer = (code: string) => {
-    return JSON.stringify({
-        msg: [
-            { message: "Something" },
-            { message: "Something" },
-            { message: "Something" },
-            { message: "Something" },
-            { message: "Something" },
-            { message: "Something" },
-        ],
-    });
+    const Words = GenerateWords(code);
+
+    return JSON.stringify(
+        {
+            words: Words,
+        },
+        null,
+        2
+    );
 };

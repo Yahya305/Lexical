@@ -13,10 +13,10 @@ function App() {
             ></textarea>
             <div className="tokens">
                 <h2>Tokens: </h2>
-                <code>
+                <pre>
                     {/* Render JSON String Here */}
                     {LexicalAnalyzer(Code)}
-                </code>
+                </pre>
             </div>
         </div>
     );
