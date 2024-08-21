@@ -1,5 +1,18 @@
 // Punctuation characters
-export const PUNCTUATION = ["{", "}", "(", ")", '"', "'", ";", ":", "[", "]"];
+export const PUNCTUATION = [
+    "{",
+    "}",
+    "(",
+    ")",
+    '"',
+    "'",
+    ";",
+    ":",
+    "[",
+    "]",
+    ".",
+    ",",
+];
 
 // Arithmetic operators
 export const ARITHMETIC_OPERATORS = ["+", "-", "*", "/", "%"];
@@ -55,7 +68,6 @@ export const BREAKERS = [
     "\r",
     '"',
     "'",
-    ".",
     ...PUNCTUATION,
     ...OPERATORS,
 ];
