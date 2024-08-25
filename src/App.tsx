@@ -1,22 +1,35 @@
 import { useState } from "react";
 import { LexicalAnalyzer } from "./utils/LexicalAnalyzer";
+import "./App.css";
 
 function App() {
     const [Code, setCode] = useState("");
+    const tokens = LexicalAnalyzer(Code);
     return (
         <div className="app">
-            <textarea
-                value={Code}
-                onChange={(e) => setCode(e.target.value)}
-                cols={30}
-                rows={10}
-            ></textarea>
-            <div className="tokens">
-                <h2>Tokens: </h2>
-                <pre style={{ fontSize: 8 }}>
-                    {/* Render JSON String Here */}
-                    {LexicalAnalyzer(Code)}
-                </pre>
+            <div className="input">
+                <div className="title">Input</div>
+                <textarea
+                    value={Code}
+                    onChange={(e) => setCode(e.target.value)}
+                ></textarea>
+            </div>
+            <div className="tokens-warp">
+                <div className="title">Out Put</div>
+                <div className="tokens">
+                    {tokens.map((token, index) => (
+                        <div key={index} className="token">
+                            <div className="tokenNo">Token No: {index + 1}</div>
+                            <div className="class">
+                                Class: {token.classType}
+                            </div>
+                            <div className="value">Word: {token.word}</div>
+                            <div className="lineNo">
+                                Line No: {token.lineNo}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

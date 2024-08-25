@@ -1,5 +1,5 @@
 // Punctuation characters
-export const PUNCTUATION = [
+export const PUNCTUATION: string[] = [
     "{",
     "}",
     "(",
@@ -10,27 +10,47 @@ export const PUNCTUATION = [
     ":",
     "[",
     "]",
-    ".",
     ",",
 ];
 
 // Arithmetic operators
-export const ARITHMETIC_OPERATORS = ["+", "-", "*", "/", "%"];
+export const ARITHMETIC_OPERATORS: string[] = ["+", "-", "*", "/", "%"];
 
 // Comparison operators
-export const COMPARISON_OPERATORS = ["==", "!=", ">", "<", ">=", "<="];
+export const COMPARISON_OPERATORS: string[] = [
+    "==",
+    "!=",
+    ">",
+    "<",
+    ">=",
+    "<=",
+];
+
+export const INCREMENT_OPERATOR: string = "++";
+export const DECREMENT_OPERATOR: string = "--";
+export const INC_DEC_OPERATORS: string[] = [
+    INCREMENT_OPERATOR,
+    DECREMENT_OPERATOR,
+];
 
 // Logical operators
-export const LOGICAL_OPERATORS = ["&&", "||", "!"];
+export const LOGICAL_OPERATORS: string[] = ["&&", "||", "!"];
 
 // Assignment operators
-export const ASSIGNMENT_OPERATORS = ["=", "+=", "-=", "*=", "/=", "%="];
+export const ASSIGNMENT_OPERATORS: string[] = [
+    "=",
+    "+=",
+    "-=",
+    "*=",
+    "/=",
+    "%=",
+];
 
 // Bitwise operators
-export const BITWISE_OPERATORS = ["&", "|", "^", "~", "<<", ">>"];
+export const BITWISE_OPERATORS: string[] = ["&", "|", "^", "~", "<<", ">>"];
 
 // All Operators
-export const OPERATORS = [
+export const OPERATORS: string[] = [
     ...ARITHMETIC_OPERATORS,
     ...COMPARISON_OPERATORS,
     ...LOGICAL_OPERATORS,
@@ -39,7 +59,7 @@ export const OPERATORS = [
 ];
 
 // Keywords (example set, adjust as needed)
-export const KEYWORDS = [
+export const KEYWORDS: string[] = [
     "if",
     "else",
     "while",
@@ -49,23 +69,33 @@ export const KEYWORDS = [
     "var",
     "let",
     "const",
+    "void",
 ];
 
-export const BOOLEAN_DT = ["false", "true"];
+export const BOOLEAN_DT: string[] = ["false", "true"];
+
+export const DATA_TYPES: string[] = [
+    "int",
+    "double",
+    "bool",
+    "char",
+    ...BOOLEAN_DT,
+];
 
 // Identifiers (not predefined, but for recognition)
-export const IDENTIFIER_REGEX = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+export const IDENTIFIER_REGEX: RegExp = /^__[a-zA-Z0-9_]+__$/;
 
 // Numeric literals (integers and floating-point)
-export const NUMERIC_LITERALS_REGEX = /^\d+(\.\d+)?$/;
+export const INTEGER_REGEX: RegExp = /^-?\d+$/;
+export const FLOAT_REGEX: RegExp = /^-?\d*\.\d+$/;
+export const DOUBLE_REGEX: RegExp = /^-?\d*\.\d+$/;
+export const NUMERIC_LITERALS_REGEX: RegExp = /^-?\d+(\.\d+)?([eE][-+]?\d+)?$/;
 
 // String literals (quoted strings)
-export const STRING_LITERALS_REGEX = /^".*"$|^'.*'$/;
-
-export const SKIBIDI_SLANG = ["skibidi", "aura"];
+export const STRING_LITERALS_REGEX: RegExp = /^".*"$|^'.*'$/;
 
 // Breakers or delimiters
-export const BREAKERS = [
+export const BREAKERS: string[] = [
     " ",
     "\n",
     "\t",
