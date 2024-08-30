@@ -25,10 +25,9 @@ type TokenT = {
 };
 
 const GenerateWords: (code: string) => WordT[] = (code) => {
-    let w: WordT[] = [];
+    let words: WordT[] = [];
     let temp: string = "";
     const Lines: string[] = code.split("\n").filter((x) => x !== "");
-
     for (let row = 0; row < Lines.length; row++) {
         const line = Lines[row];
         for (let i = 0; i < line.length; i++) {
@@ -40,31 +39,31 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
             }
             // For INC/DEC Operators
             else if (INC_DEC_OPERATORS.includes(temp + char)) {
-                w.push({ word: temp + char, lineNo: row });
+                words.push({ word: temp + char, lineNo: row });
                 temp = "";
             }
             // For Comparision Operators
             else if (COMPARISON_OPERATORS.includes(temp + char)) {
-                w.push({ word: temp + char, lineNo: row });
+                words.push({ word: temp + char, lineNo: row });
                 temp = "";
             }
             // For Punctuations
             else if (PUNCTUATION.includes(char)) {
-                w.push({ word: temp, lineNo: row });
-                w.push({ word: char, lineNo: row });
+                words.push({ word: temp, lineNo: row });
+                words.push({ word: char, lineNo: row });
                 temp = "";
             }
             // If Line Break
             else if (char == " ") {
-                w.push({ word: temp, lineNo: row });
+                words.push({ word: temp, lineNo: row });
                 temp = "";
             }
             // For Average Breaker
             else if (BREAKERS.includes(char)) {
-                w.push({ word: temp, lineNo: row });
+                words.push({ word: temp, lineNo: row });
                 temp = char;
             } else if (i == line.length - 1) {
-                w.push({ word: temp + char, lineNo: row });
+                words.push({ word: temp + char, lineNo: row });
                 temp = "";
             }
             // Temp is not breaker
@@ -72,12 +71,9 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
                 temp += char;
             }
         }
-        w.push({ word: "/n", lineNo: row });
+        words.push({ word: "/n", lineNo: row });
     }
-
-    return w.filter((x) => {
-        return x.word !== " " && x.word !== "";
-    });
+    return words.filter((x) => x.word !== " " && x.word !== "");
 };
 
 const GenerateTokens = (Words: WordT[]): TokenT[] => {
