@@ -48,7 +48,7 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
                     lineNo: row,
                     classType: "STRING_CONSTANT",
                 });
-                temp = ""
+                temp = "";
                 isReadingString = false;
             }
             // For Strings Reading Start
@@ -62,29 +62,24 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
                 temp += char;
             }
 
-                        
-            // For Character 
+            // For Character
             else if (char === "'") {
                 words.push({
                     word: temp,
                     lineNo: row,
                     classType: "CHAR_CONSTANT",
                 });
-                temp=""
+                temp = "";
                 isReadingString = false;
             }
             // Reading Char
             else if (isReadingChar && char !== "'") {
-                try {
-                    line[i+1]
-                    if (i+1 ) {
-                        // agar char hai tou expect karo ending quote
-                    }else{
-                        // 
-                    }
+                let startingSingleQuote = char;
+                let firstChar = line[i + 1];
+                if(firstChar !== "\\") {
                     
-                } catch (error) {
-                    
+                } else {
+
                 }
                 temp += char;
             }
