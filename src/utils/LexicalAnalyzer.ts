@@ -17,6 +17,7 @@ import {
 type WordT = {
     word: string;
     lineNo: number;
+    classType?: string;
 };
 type TokenT = {
     classType: string;
@@ -28,6 +29,7 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
     let words: WordT[] = [];
     let temp: string = "";
     const Lines: string[] = code.split("\n").filter((x) => x !== "");
+    let isReadingString = false;
     for (let row = 0; row < Lines.length; row++) {
         const line = Lines[row];
         for (let i = 0; i < line.length; i++) {
@@ -37,6 +39,27 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
                 temp = "";
                 break;
             }
+
+            // For Strings Reading End
+            else if (isReadingString && char === '"') {
+                words.push({
+                    word: temp,
+                    lineNo: row,
+                    classType: "STRING_CONSTANT",
+                });
+                isReadingString = false;
+            }
+            // Reading String
+            else if (isReadingString && char !== '"') {
+                temp += char;
+            }
+            // For Strings Reading Start
+            else if (char === '"') {
+                words.push({ word: temp, lineNo: row });
+                temp = "";
+                isReadingString = true;
+            }
+
             // For INC/DEC Operators
             else if (INC_DEC_OPERATORS.includes(temp + char)) {
                 words.push({ word: temp + char, lineNo: row });
@@ -62,14 +85,14 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
             else if (BREAKERS.includes(char)) {
                 words.push({ word: temp, lineNo: row });
                 temp = char;
-            } else if (i == line.length - 1) {
+            }
+            // Dont know for what
+            else if (i == line.length - 1) {
                 words.push({ word: temp + char, lineNo: row });
                 temp = "";
             }
             // Temp is not breaker
-            else {
-                temp += char;
-            }
+            else temp += char;
         }
         words.push({ word: "/n", lineNo: row });
     }
@@ -80,7 +103,9 @@ const GenerateTokens = (Words: WordT[]): TokenT[] => {
     let _tokens: TokenT[] = [];
     Words.forEach((item) => {
         _tokens.push({
-            classType: ValidateClass(item.word),
+            classType: item?.classType
+                ? item.classType
+                : ValidateClass(item.word),
             word: item.word,
             lineNo: item.lineNo + 1,
         });
@@ -97,8 +122,6 @@ const ValidateClass = (word: string): string => {
 
     if (KEYWORDS.includes(word)) {
         return "KEYWORD";
-    } else if (DATA_TYPES.includes(word)) {
-        return "DATA_TYPE";
     } else if (INC_DEC_OPERATORS.includes(word)) {
         return "INC/DEC_OPERATOR";
     } else if (COMPARISON_OPERATORS.includes(word)) {
@@ -119,6 +142,8 @@ const ValidateClass = (word: string): string => {
         return "INTEGER_CONSTANT";
     } else if (doubleRegex.exec(word)) {
         return "DOUBLE_CONSTANT";
+    } else if (DATA_TYPES.includes(word)) {
+        return "DATA_TYPE";
     } else if (indentifierRegex.exec(word)) {
         return "IDENTIFIER";
     }
@@ -128,6 +153,5 @@ const ValidateClass = (word: string): string => {
 export const LexicalAnalyzer = (code: string): TokenT[] => {
     const Words = GenerateWords(code);
     const Tokens = GenerateTokens(Words);
-
     return Tokens;
 };
