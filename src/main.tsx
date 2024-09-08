@@ -1,4 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 
-createRoot(document.getElementById("LEXICAL__ANALYZER")!).render(<App />);
+window.addEventListener("DOMContentLoaded", () => {
+    // HS_REACT Section
+    createRoot(document.getElementById("LEXICAL__ANALYZER")!).render(<App />);
+});

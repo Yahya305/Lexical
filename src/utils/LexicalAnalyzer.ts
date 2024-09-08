@@ -47,17 +47,18 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
                     lineNo: row,
                     classType: "STRING_CONSTANT",
                 });
+                temp = ""
                 isReadingString = false;
-            }
-            // Reading String
-            else if (isReadingString && char !== '"') {
-                temp += char;
             }
             // For Strings Reading Start
             else if (char === '"') {
                 words.push({ word: temp, lineNo: row });
                 temp = "";
                 isReadingString = true;
+            }
+            // Reading String
+            else if (isReadingString && char !== '"') {
+                temp += char;
             }
 
             // For INC/DEC Operators
