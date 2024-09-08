@@ -30,6 +30,7 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
     let temp: string = "";
     const Lines: string[] = code.split("\n").filter((x) => x !== "");
     let isReadingString = false;
+    let isReadingChar = false;
     for (let row = 0; row < Lines.length; row++) {
         const line = Lines[row];
         for (let i = 0; i < line.length; i++) {
@@ -59,6 +60,39 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
             // Reading String
             else if (isReadingString && char !== '"') {
                 temp += char;
+            }
+
+                        
+            // For Character 
+            else if (char === "'") {
+                words.push({
+                    word: temp,
+                    lineNo: row,
+                    classType: "CHAR_CONSTANT",
+                });
+                temp=""
+                isReadingString = false;
+            }
+            // Reading Char
+            else if (isReadingChar && char !== "'") {
+                try {
+                    line[i+1]
+                    if (i+1 ) {
+                        // agar char hai tou expect karo ending quote
+                    }else{
+                        // 
+                    }
+                    
+                } catch (error) {
+                    
+                }
+                temp += char;
+            }
+            // For Strings Reading Start
+            else if (char === "'") {
+                words.push({ word: temp, lineNo: row });
+                temp = "";
+                isReadingChar = true;
             }
 
             // For INC/DEC Operators
