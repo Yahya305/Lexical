@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { TokenT } from "./LexicalAnalyzer";
 
 export class Parser {
@@ -190,6 +191,8 @@ export class Parser {
                 // Add other constructs as needed
             }
         } catch (error) {
+            toast.dismiss();
+            toast.error(error.message); // Display the new error message after 2 seconds
             console.log("err", error);
         }
     }

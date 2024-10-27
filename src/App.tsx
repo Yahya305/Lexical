@@ -1,13 +1,23 @@
-import { useState } from "react";
+"use client"
+import { useEffect, useState } from "react";
 import { LexicalAnalyzer } from "./utils/LexicalAnalyzer";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import { Parser } from "./utils/Parser";
+import { useDebouncedSearch } from "./hooks/useDebouncedSearch";
 
 function App() {
-    const [Code, setCode] = useState("");
-    const tokens = LexicalAnalyzer(Code);
-    const p= new Parser(tokens);
-    p.parse();
+    // const [Code, setCode] = useState("");
+    const {debouncedValue ,searchedText: Code,handleChange:setCode}=useDebouncedSearch();
+    
+    let tokens
+    useEffect(()=>{
+        tokens = LexicalAnalyzer(debouncedValue);
+        const p= new Parser(tokens);
+        p.parse();
+
+    },[debouncedValue])
+
     return (
         <div className="app">
             <div className="input">
@@ -18,9 +28,9 @@ function App() {
                 ></textarea>
             </div>
             <div className="tokens-warp">
-                <div className="title">Out Put</div>
+                <div className="title">Output</div>
                 <div className="tokens">
-                    {tokens.map((token, index) => (
+                    {tokens?.map((token, index) => (
                         <div key={index} className="token">
                             <div className="tokenNo">Token No: {index + 1}</div>
                             <div className="class">
@@ -34,6 +44,7 @@ function App() {
                     ))}
                 </div>
             </div>
+            <Toaster toastOptions={{duration:2500}} />
         </div>
     );
 }
