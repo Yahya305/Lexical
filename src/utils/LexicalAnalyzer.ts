@@ -2,8 +2,11 @@ import {
     ARITHMETIC_OPERATORS,
     ASSIGNMENT_OPERATORS,
     BOOLEAN_DT,
+    BRACE_CLOSE,
+    BRACE_OPEN,
     BREAKERS,
     COMPARISON_OPERATORS,
+    CONDITIONAL_KEYWORD,
     DATA_TYPES,
     DECLERATORS,
     DOUBLE_REGEX,
@@ -13,6 +16,8 @@ import {
     INTEGER_REGEX,
     KEYWORDS,
     LOOP_KEYWORDS,
+    PARENTHESES_CLOSE,
+    PARENTHESES_OPEN,
     PUNCTUATION,
     STATEMENT_TERMINATOR,
 } from "./CONSTANTS";
@@ -161,8 +166,18 @@ const ValidateClass = (word: string): string => {
         return "ASSIGNMENT_OPERATORS";
     } else if (PUNCTUATION.includes(word)) {
         return "PUNCTUATION";
+    } else if (CONDITIONAL_KEYWORD.includes(word)) {
+        return "CONDITIONAL_KEYWORD";
     } else if (word === "/n") {
         return "LINE_BREAKER";
+    } else if (word === PARENTHESES_OPEN) {
+        return "PARENTHESES_OPEN";
+    } else if (word === PARENTHESES_CLOSE) {
+        return "PARENTHESES_CLOSE";
+    } else if (word === BRACE_OPEN) {
+        return "BRACE_OPEN";
+    } else if (word === BRACE_CLOSE) {
+        return "BRACE_CLOSE";
     } else if (ARITHMETIC_OPERATORS.includes(word)) {
         return "ARITHMETIC_OPERATOR";
     } else if (BOOLEAN_DT.includes(word)) {

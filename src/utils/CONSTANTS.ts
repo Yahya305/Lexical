@@ -1,9 +1,9 @@
 // Punctuation characters
 export const PUNCTUATION: string[] = [
-    "{",
-    "}",
-    "(",
-    ")",
+    // "{",
+    // "}",
+    // "(",
+    // ")",
     '"',
     "'",
     // ";",
@@ -12,6 +12,11 @@ export const PUNCTUATION: string[] = [
     "]",
     ",",
 ];
+
+export const PARENTHESES_OPEN= "(" 
+export const PARENTHESES_CLOSE= ")" 
+export const BRACE_OPEN= "{" 
+export const BRACE_CLOSE= "}" 
 
 export const STATEMENT_TERMINATOR = ";"
 
@@ -62,7 +67,7 @@ export const OPERATORS: string[] = [
 
 // Keywords (example set, adjust as needed)
 export const KEYWORDS: string[] = [
-    "when",
+    // "when",
     "else",
     // "asLongAs",
     // "iterate",
@@ -70,6 +75,8 @@ export const KEYWORDS: string[] = [
     "function",
     "empty",
 ];
+
+export const CONDITIONAL_KEYWORD=["when"]
 
 export const LOOP_KEYWORDS=[
     "iterate",

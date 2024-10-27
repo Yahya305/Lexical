@@ -52,15 +52,18 @@ export class Parser {
         if (this.match("DECLERATOR")) {
             // Checking for Assignment
             this.parseAssignment();
-        } else if (this.match("when")) {
+            this.consume("STATEMENT_TERMINATOR");
+        } else if (this.match("CONDITIONAL_KEYWORD")) {
             // Checking for Conditional Statements
             this.parseConditionalStatement();
         } else if (this.match("LOOP_KEYWORDS")) {
             // Checking for Loop Statements
-            // this.parseLoopStatement();
+            this.parseLoopStatement();
         } else if (this.match("LOGICAL_EXPRESSION")) {
             // Assuming you have a way to identify logical expressions
-            // this.parseLogicalExpression();
+            this.parseLogicalExpression();
+        }else if (this.match("LINE_BREAKER")) {
+            this.advance();
         } else {
             throw new Error(
                 `Unexpected token ${
@@ -68,8 +71,6 @@ export class Parser {
                 } at line ${this.getCurrentLexeme().lineNo}`
             );
         }
-        this.consume("STATEMENT_TERMINATOR")
-        this.consume("LINE_BREAKER")
     }
 
     // Add methods for parsing each non-terminal in your CFG
@@ -108,18 +109,21 @@ export class Parser {
 
     public parseRelationalExpression(): void {
         this.parseValue(); // Parse the left-hand value
-        this.consume("RELATIONAL_OPERATOR"); // Parse the relational operator
+        this.consume("COMPARISON_OPERATORS"); // Parse the relational operator
         this.parseValue(); // Parse the right-hand value
     }
 
     public parseConditionalStatement(): void {
-        this.consume("when"); // Consume 'when'
-        this.consume("("); // Consume '('
+        this.consume("CONDITIONAL_KEYWORD"); // Consume 'when'
+        this.consume("PARENTHESES_OPEN"); // Consume '('
         this.parseRelationalExpression(); // Parse the condition
-        this.consume(")"); // Consume ')'
-        this.consume("{"); // Consume '{'
-        this.parseStatement(); // Parse the statement
-        this.consume("}"); // Consume '}'
+        this.consume("PARENTHESES_CLOSE"); // Consume ')'
+        this.consume("BRACE_OPEN"); // Consume '{'
+        // Parse the body of the loop. Assuming it consists of one or more statements.
+        while (!this.match('BRACE_CLOSE')) {
+            this.parseStatement(); // Parse each statement inside the loop
+        }
+        this.consume("BRACE_CLOSE"); // Consume '}'
 
         // Check for else clauses
         if (this.match("else")) {
@@ -129,6 +133,54 @@ export class Parser {
             this.consume("}"); // Consume '}'
         }
     }
+    public parseLoopStatement(): void {    
+        // Check for the loop keyword, either 'asLongAs' or 'iterate'
+        if (this.match('LOOP_KEYWORDS')) {
+            this.consume('LOOP_KEYWORDS'); // Consume 'asLongAs'
+        } else {
+            throw new Error(`Expected loop keyword 'asLongAs' or 'iterate' but found ${this.getCurrentLexeme().classType} at line ${this.getCurrentLexeme().lineNo}`);
+        }
+    
+        // Expecting '(' after the loop keyword
+        this.consume('PARENTHESES_OPEN');
+        
+        // Parse the relational expression, which acts as the loop's condition
+        this.parseRelationalExpression();
+    
+        // Expecting ')' after the relational expression
+        this.consume('PARENTHESES_CLOSE');
+        
+        // Expecting '{' to start the loop body
+        this.consume('BRACE_OPEN');
+        
+        // Parse the body of the loop. Assuming it consists of one or more statements.
+        while (!this.match('BRACE_CLOSE')) {
+            this.parseStatement(); // Parse each statement inside the loop
+        }
+    
+        // Expecting '}' to close the loop body
+        this.consume('BRACE_CLOSE');
+        
+    }
+
+    public parseLogicalExpression(): void {
+        console.log("Parsing logical expression...");
+    
+        // Parse the first value or nested logical expression
+        this.parseValue(); 
+    
+        // Check for the presence of a logical operator (&& or ||)
+        while (this.match('&&') || this.match('||')) {
+            // Consume the logical operator
+            this.consume(this.getCurrentLexeme().classType);
+            
+            // Parse the next value or logical expression on the right side of the operator
+            this.parseValue();
+        }
+    
+        console.log("Logical expression parsed successfully.");
+    }
+    
     public parse(): void {
         try {
             while (this.current < this.lexemes.length) {
