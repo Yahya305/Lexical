@@ -5,13 +5,16 @@ import {
     BREAKERS,
     COMPARISON_OPERATORS,
     DATA_TYPES,
+    DECLERATORS,
     DOUBLE_REGEX,
     FLOAT_REGEX,
     IDENTIFIER_REGEX,
     INC_DEC_OPERATORS,
     INTEGER_REGEX,
     KEYWORDS,
+    LOOP_KEYWORDS,
     PUNCTUATION,
+    STATEMENT_TERMINATOR,
 } from "./CONSTANTS";
 
 type WordT = {
@@ -19,7 +22,7 @@ type WordT = {
     lineNo: number;
     classType?: string;
 };
-type TokenT = {
+export type TokenT = {
     classType: string;
     word: string;
     lineNo: number;
@@ -76,10 +79,8 @@ const GenerateWords: (code: string) => WordT[] = (code) => {
             else if (isReadingChar && char !== "'") {
                 let startingSingleQuote = char;
                 let firstChar = line[i + 1];
-                if(firstChar !== "\\") {
-                    
+                if (firstChar !== "\\") {
                 } else {
-
                 }
                 temp += char;
             }
@@ -176,6 +177,12 @@ const ValidateClass = (word: string): string => {
         return "DATA_TYPE";
     } else if (indentifierRegex.exec(word)) {
         return "IDENTIFIER";
+    } else if (DECLERATORS.includes(word)) {
+        return "DECLERATOR";
+    } else if (LOOP_KEYWORDS.includes(word)) {
+        return "LOOP_KEYWORDS";
+    } else if (word === STATEMENT_TERMINATOR) {
+        return "STATEMENT_TERMINATOR";
     }
     return "Invalid";
 };
@@ -183,5 +190,6 @@ const ValidateClass = (word: string): string => {
 export const LexicalAnalyzer = (code: string): TokenT[] => {
     const Words = GenerateWords(code);
     const Tokens = GenerateTokens(Words);
+    console.log(Tokens);
     return Tokens;
 };

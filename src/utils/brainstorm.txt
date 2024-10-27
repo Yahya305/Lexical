@@ -1,0 +1,47 @@
+CFG for Assignment Operations
+> Assignment → Keyword Identifier "=" Value
+> Keyword → "let" | "const" | "maalo"
+> Value → INTEGER_CONSTANT | FLOAT_CONSTANT | BOOLEAN_CONSTANT | DOUBLE_CONSTANT | STRING_CONSTANT
+> Identifier → "__" [a-zA-Z0-9_]+ "__"
+
+
+CFG for Arithmetic Operations
+> Expression → Value Operator Value | Value
+> Operator → "+" | "-" | "*" | "/" | "%"
+Value → INTEGER_CONSTANT 
+       | FLOAT_CONSTANT 
+       | BOOLEAN_CONSTANT 
+       | DOUBLE_CONSTANT 
+       | STRING_CONSTANT 
+       | Identifier
+
+
+CFG for relational operations
+> RelationalExpression → Value RelationalOperator Value
+> RelationalOperator → "==" | "!=" | ">" | "<" | ">=" | "<="
+> Value → INTEGER_CONSTANT 
+       | FLOAT_CONSTANT 
+       | BOOLEAN_CONSTANT 
+       | DOUBLE_CONSTANT 
+       | STRING_CONSTANT 
+       | Identifier
+
+CFG for logical operations
+> LogicalExpression → Value LogicalOperator Value
+                  | LogicalExpression LogicalOperator LogicalExpression
+                  | Value
+> LogicalOperator → "&&" | "||"
+
+CFG for Conditional Statements
+> ConditionalStatement → "when" "(" RelationalExpression ")" "{" Statement "}"
+                     | "when" "(" RelationalExpression ")" "{" Statement "}" "else" "{" Statement "}"
+                     | "when" "(" RelationalExpression ")" "{" Statement "}" "else" "when" "(" RelationalExpression ")" "{" Statement "}"
+
+> Statement → Assignment 
+           | LogicalExpression 
+           | ...  // You can add other statement types here as needed
+
+
+CFG for Loops
+> LoopStatement → "asLongAs" "(" RelationalExpression ")" "{" Statement "}"
+              | "iterate" "(" RelationalExpression ")" "{" Statement "}"

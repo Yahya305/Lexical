@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { LexicalAnalyzer } from "./utils/LexicalAnalyzer";
 import "./App.css";
+import { Parser } from "./utils/Parser";
 
 function App() {
     const [Code, setCode] = useState("");
     const tokens = LexicalAnalyzer(Code);
+    const p= new Parser(tokens);
+    p.parse();
     return (
         <div className="app">
             <div className="input">

@@ -6,12 +6,14 @@ export const PUNCTUATION: string[] = [
     ")",
     '"',
     "'",
-    ";",
+    // ";",
     ":",
     "[",
     "]",
     ",",
 ];
+
+export const STATEMENT_TERMINATOR = ";"
 
 // Arithmetic operators
 export const ARITHMETIC_OPERATORS: string[] = ["+", "-", "*", "/", "%"];
@@ -60,25 +62,33 @@ export const OPERATORS: string[] = [
 
 // Keywords (example set, adjust as needed)
 export const KEYWORDS: string[] = [
-    "if",
+    "when",
     "else",
-    "while",
-    "for",
-    "return",
+    // "asLongAs",
+    // "iterate",
+    "sendBack",
     "function",
-    "var",
+    "empty",
+];
+
+export const LOOP_KEYWORDS=[
+    "iterate",
+    "asLongAs",
+]
+
+export const DECLERATORS=[
+    "maanlo",
     "let",
     "const",
-    "void",
-];
+]
 
 export const BOOLEAN_DT: string[] = ["false", "true"];
 
 export const DATA_TYPES: string[] = [
-    "int",
+    "number",
     "double",
-    "bool",
-    "char",
+    "flag",
+    "alpha",
     ...BOOLEAN_DT,
 ];
 
